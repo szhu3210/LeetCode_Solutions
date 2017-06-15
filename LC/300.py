@@ -1,5 +1,6 @@
 class Solution(object):
-    def lengthOfLIS(self, nums):
+    ## this solution seems not right
+    def lengthOfLIS0(self, nums):
         """
         :type nums: List[int]
         :rtype: int
@@ -20,3 +21,18 @@ class Solution(object):
                     add.append(t[:index]+[num])
             temp.extend(add)
         return max([len(s) for s in temp] or [0])
+
+    ## this one uses less memeory and is more efficient and corrent
+    def lengthOfLIS(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        t=[]
+        for num in nums:
+            index=bisect.bisect_left(t, num)
+            if index==len(t):
+                t.append(num)
+            else:
+                t[index]=num
+        return len(t)
