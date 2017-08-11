@@ -5,23 +5,24 @@ class Solution(object):
         :type k: int
         :rtype: str
         """
-        for i in range(k):
-            #remove prefixed 0
-            while(num[0]=='0' if num else 0):
-                num=num[1:]
-                
-            #remove 1 digit
-            if len(num)>1:
-                if num[1]=='0':
-                    num=num[2:]
-                    continue
-            m=0
-            d=-1
-            for i,c in enumerate(num):
-                if int(c)>=m:
-                    m=int(c)
+        
+        def remove1digit(n):
+            if n=='0':
+                return '0'
+            
+            n=n.lstrip('0')
+            
+            peak=0
+            for i,c in enumerate(n):
+                if c>=n[peak]:
+                    peak=i
                 else:
-                    d=i-1
                     break
-            num=num[:d]+(num[d+1:] if d>-1 else '')
-        return num if num else '0'
+            # print n, peak
+            return (n[:peak]+n[peak+1:]).lstrip('0') or '0'
+            
+        res=num
+        for _ in range(k):
+            res=remove1digit(res)
+        
+        return res
